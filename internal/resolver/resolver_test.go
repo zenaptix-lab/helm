@@ -22,7 +22,16 @@ import (
 	"helm.sh/helm/v3/pkg/chart"
 )
 
+func fakeGitReference(gitRepo, ref, repoName string) (bool, error) {
+	gitRefs := map[string]string{
+		"1.0.0": "",
+	}
+
+	_, found := gitRefs[ref]
+	return found, nil
+}
 func TestResolve(t *testing.T) {
+	hasGitReference = fakeGitReference
 	tests := []struct {
 		name   string
 		req    []*chart.Dependency
@@ -132,6 +141,54 @@ func TestResolve(t *testing.T) {
 			expect: &chart.Lock{
 				Dependencies: []*chart.Dependency{
 					{Name: "nonexistentlocaldependency", Repository: "", Version: "0.1.0"},
+				},
+			},
+			err: true,
+		},
+		{
+			name: "repo from git https url",
+			req: []*chart.Dependency{
+				{Name: "gitdependencyok", Repository: "git://https://github.com/helm/helmchart.git", Version: "1.0.0"},
+			},
+			expect: &chart.Lock{
+				Dependencies: []*chart.Dependency{
+					{Name: "gitdependencyok", Repository: "git://https://github.com/helm/helmchart.git", Version: "1.0.0"},
+				},
+			},
+			err: false,
+		},
+		{
+			name: "repo from git https url",
+			req: []*chart.Dependency{
+				{Name: "gitdependencyerror", Repository: "git://https://github.com/helm/helmchart.git", Version: "2.0.0"},
+			},
+			expect: &chart.Lock{
+				Dependencies: []*chart.Dependency{
+					{Name: "gitdependencyerror", Repository: "git://https://github.com/helm/helmchart.git", Version: "2.0.0"},
+				},
+			},
+			err: true,
+		},
+		{
+			name: "repo from git ssh url",
+			req: []*chart.Dependency{
+				{Name: "gitdependency", Repository: "git://git@github.com:helm/helmchart.git", Version: "1.0.0"},
+			},
+			expect: &chart.Lock{
+				Dependencies: []*chart.Dependency{
+					{Name: "gitdependency", Repository: "git://git@github.com:helm/helmchart.git", Version: "1.0.0"},
+				},
+			},
+			err: false,
+		},
+		{
+			name: "repo from git ssh url",
+			req: []*chart.Dependency{
+				{Name: "gitdependencyerror", Repository: "git://git@github.com:helm/helmchart.git", Version: "2.0.0"},
+			},
+			expect: &chart.Lock{
+				Dependencies: []*chart.Dependency{
+					{Name: "gitdependencyerror", Repository: "git://git@github.com:helm/helmchart.git", Version: "2.0.0"},
 				},
 			},
 			err: true,
