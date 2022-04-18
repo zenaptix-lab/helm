@@ -13,14 +13,13 @@ require (
 	github.com/containerd/containerd v1.5.0-rc.3
 	github.com/cyphar/filepath-securejoin v0.2.2
 	github.com/distribution/distribution/v3 v3.0.0-20210804104954-38ab4c606ee3
-	github.com/docker/distribution v2.7.1+incompatible
 	github.com/docker/docker v17.12.0-ce-rc1.0.20200618181300-9dc6525e6118+incompatible
 	github.com/docker/go-units v0.4.0
 	github.com/evanphx/json-patch v4.9.0+incompatible
 	github.com/gobwas/glob v0.2.3
 	github.com/gofrs/flock v0.8.0
 	github.com/gosuri/uitable v0.0.4
-	github.com/jmoiron/sqlx v1.3.1
+	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.0
 	github.com/mattn/go-shellwords v1.0.11
 	github.com/mitchellh/copystructure v1.1.1
