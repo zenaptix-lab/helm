@@ -252,11 +252,8 @@ func TestUpgradeRelease_ReuseValues(t *testing.T) {
 		// Now make sure it is actually upgraded
 		updatedResi, err := upAction.cfg.Releases.Get(res.Name, 2)
 		req.NoError(err)
+		req.NotNil(updatedResi, "Updated Release is nil")
 
-		if updatedResi == nil {
-			is.Fail("Updated Release is nil")
-			return
-		}
 		updatedRes, err := releaserToV1Release(updatedResi)
 		req.NoError(err)
 
@@ -320,11 +317,8 @@ func TestUpgradeRelease_ReuseValues(t *testing.T) {
 		// Now get the upgraded release
 		updatedResi, err := upAction.cfg.Releases.Get(res.Name, 2)
 		req.NoError(err)
+		req.NotNil(updatedResi, "Updated Release is nil")
 
-		if updatedResi == nil {
-			is.Fail("Updated Release is nil")
-			return
-		}
 		updatedRes, err := releaserToV1Release(updatedResi)
 		req.NoError(err)
 
@@ -383,11 +377,8 @@ func TestUpgradeRelease_ResetThenReuseValues(t *testing.T) {
 		// Now make sure it is actually upgraded
 		updatedResi, err := upAction.cfg.Releases.Get(res.Name, 2)
 		req.NoError(err)
+		req.NotNil(updatedResi, "Updated Release is nil")
 
-		if updatedResi == nil {
-			is.Fail("Updated Release is nil")
-			return
-		}
 		updatedRes, err := releaserToV1Release(updatedResi)
 		req.NoError(err)
 
@@ -523,11 +514,8 @@ func TestUpgradeRelease_Labels(t *testing.T) {
 	// Now make sure it is actually upgraded and labels were merged
 	updatedResi, err := upAction.cfg.Releases.Get(res.Name, 2)
 	req.NoError(err)
+	req.NotNil(updatedResi, "Updated Release is nil")
 
-	if updatedResi == nil {
-		is.Fail("Updated Release is nil")
-		return
-	}
 	updatedRes, err := releaserToV1Release(updatedResi)
 	req.NoError(err)
 	is.Equal(common.StatusDeployed, updatedRes.Info.Status)
@@ -536,11 +524,8 @@ func TestUpgradeRelease_Labels(t *testing.T) {
 	// Now make sure it is suppressed release still contains original labels
 	initialResi, err := upAction.cfg.Releases.Get(res.Name, 1)
 	req.NoError(err)
+	req.NotNil(initialResi, "Initial Release is nil")
 
-	if initialResi == nil {
-		is.Fail("Updated Release is nil")
-		return
-	}
 	initialRes, err := releaserToV1Release(initialResi)
 	req.NoError(err)
 	is.Equal(common.StatusSuperseded, initialRes.Info.Status)
